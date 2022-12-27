@@ -1,3 +1,5 @@
+import org.sourcegrade.jagr.gradle.task.submission.SubmissionBuildTask
+
 @Suppress("DSL_SCOPE_VIOLATION") // https://youtrack.jetbrains.com/issue/KTIJ-19369
 plugins {
     java
@@ -42,6 +44,11 @@ application {
 }
 
 tasks {
+    withType<SubmissionBuildTask> {
+        doFirst {
+            throw GradleException("Submissions not supported yet")
+        }
+    }
     val runDir = File("build/run")
     withType<JavaExec> {
         doFirst {
