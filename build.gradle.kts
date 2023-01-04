@@ -34,7 +34,8 @@ dependencies {
     implementation(libs.algoutils.student)
     implementation(libs.flatlaf)
     testImplementation(libs.junit.core)
-    runtimeOnly(project(":application"))
+    implementation(project(":application"))
+    runtimeOnly(project(":infrastructure"))
 }
 
 application {

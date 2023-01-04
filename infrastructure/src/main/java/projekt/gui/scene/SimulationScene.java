@@ -17,7 +17,6 @@ import projekt.gui.controller.ControlledScene;
 import projekt.gui.controller.SimulationSceneController;
 import projekt.gui.pane.ControlsPane;
 import projekt.gui.pane.MapPane;
-import projekt.gui.runner.GUIRunner;
 
 import java.util.List;
 
@@ -29,6 +28,8 @@ public class SimulationScene extends Scene implements SimulationListener, Contro
     private MapPane mapPane;
     private ControlsPane controlsPane;
 
+    private boolean closed;
+
     public SimulationScene() {
         super(new BorderPane());
         controller = new SimulationSceneController();
@@ -38,7 +39,7 @@ public class SimulationScene extends Scene implements SimulationListener, Contro
         root.getStylesheets().addAll("projekt/gui/darkMode.css", "projekt/gui/simulationStyle.css");
     }
 
-    public void init(Simulation simulation, ProblemArchetype problem, int run, int simulationRuns, GUIRunner runner) {
+    public void init(Simulation simulation, ProblemArchetype problem, int run, int simulationRuns) {
         VehicleManager vehicleManager = simulation.getDeliveryService().getVehicleManager();
         Region region = vehicleManager.getRegion();
 
@@ -55,7 +56,7 @@ public class SimulationScene extends Scene implements SimulationListener, Contro
         //stop the simulation when closing the window
         controller.getStage().setOnCloseRequest(e -> {
             simulation.endSimulation();
-            runner.terminate();
+            closed = true;
         });
     }
 
@@ -86,5 +87,9 @@ public class SimulationScene extends Scene implements SimulationListener, Contro
     @Override
     public SimulationSceneController getController() {
         return controller;
+    }
+
+    public boolean isClosed() {
+        return closed;
     }
 }

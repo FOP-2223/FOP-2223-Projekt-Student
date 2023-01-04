@@ -12,20 +12,22 @@ import projekt.delivery.rating.*;
 import projekt.delivery.routing.DijkstraPathCalculator;
 import projekt.delivery.routing.Region;
 import projekt.delivery.routing.VehicleManager;
-import projekt.delivery.runner.BasicRunner;
 import projekt.delivery.service.BasicDeliveryService;
 import projekt.delivery.simulation.SimulationConfig;
-import projekt.gui.MyApplication;
+import projekt.runner.RunnerImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A basic implementation of the {@link Projekt} interface that runs a simulation without a gui.
+ */
 @SuppressWarnings("DuplicatedCode")
-public class Main {
+public class BasicProjektImpl implements Projekt {
 
-    public static void main(String[] args) {
+    public void start() {
 
         // layer 1 - Region
         Region region1 = Region.builder()
@@ -194,13 +196,19 @@ public class Main {
         //ProblemGroup
         ProblemGroup problemGroup = new ProblemGroupImpl(List.of(problemArchetype1, problemArchetype2), new ArrayList<>(raterFactoryMap1.keySet()));
 
-        Map<RatingCriteria, Double> result = new BasicRunner().run(problemGroup, simulationConfig, 1, BasicDeliveryService::new);
-
-        System.out.println("IN_TIME: " + result.get(RatingCriteria.IN_TIME));
-
-        System.out.println("TRAVEL_DISTANCE: " + result.get(RatingCriteria.TRAVEL_DISTANCE));
-
-        System.out.println("AMOUNT_DELIVERED: " + result.get(RatingCriteria.AMOUNT_DELIVERED));
+        new RunnerImpl().run(
+            problemGroup,
+            simulationConfig,
+            1,
+            BasicDeliveryService::new,
+            (simulation, problem, i) -> {
+            },
+            (simulation, problem) -> false,
+            result -> {
+                System.out.println("IN_TIME: " + result.get(RatingCriteria.IN_TIME));
+                System.out.println("TRAVEL_DISTANCE: " + result.get(RatingCriteria.TRAVEL_DISTANCE));
+                System.out.println("AMOUNT_DELIVERED: " + result.get(RatingCriteria.AMOUNT_DELIVERED));
+            });
 
         // the lasagna is complete
     }

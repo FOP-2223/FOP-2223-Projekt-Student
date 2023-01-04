@@ -1,5 +1,6 @@
 package projekt.gui.scene;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -18,9 +19,11 @@ import projekt.delivery.service.DeliveryService;
 import projekt.delivery.service.OurDeliveryService;
 import projekt.delivery.simulation.SimulationConfig;
 import projekt.gui.controller.MainMenuSceneController;
-import projekt.gui.runner.GUIRunner;
+import projekt.runner.RunnerImpl;
 
 import java.util.Arrays;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainMenuScene extends MenuScene<MainMenuSceneController> {
 
@@ -67,10 +70,50 @@ public class MainMenuScene extends MenuScene<MainMenuSceneController> {
     private Button createStartSimulationButton() {
         Button startSimulationButton = new Button("Start Simulation");
         startSimulationButton.setOnAction((e) -> {
+            //store the SimulationScene
+            AtomicReference<SimulationScene> simulationScene = new AtomicReference<>();
             //Execute the GUIRunner in a separate Thread to prevent it from blocking the GUI
             new Thread(() -> {
                 ProblemGroup problemGroup = new ProblemGroupImpl(problems, Arrays.stream(RatingCriteria.values()).toList());
-                new GUIRunner(controller.getStage()).run(problemGroup, new SimulationConfig(20), simulationRuns, deliveryServiceFactory);
+                new RunnerImpl().run(
+                    problemGroup,
+                    new SimulationConfig(20),
+                    simulationRuns,
+                    deliveryServiceFactory,
+                    (simulation, problem, i) -> {
+                        //CountDownLatch to check if the SimulationScene got created
+                        CountDownLatch countDownLatch = new CountDownLatch(1);
+                        //execute the scene switching on the javafx application thread
+                        Platform.runLater(() -> {
+                            //switch to the SimulationScene and set everything up
+                            SimulationScene scene = (SimulationScene) SceneSwitcher.loadScene(SceneSwitcher.SceneType.SIMULATION, getController().getStage());
+                            scene.init(simulation, problem, i, simulationRuns);
+                            simulation.addListener(scene);
+                            simulationScene.set(scene);
+                            countDownLatch.countDown();
+                        });
+
+                        try {
+                            //wait for the SimulationScene to be set
+                            countDownLatch.await();
+                        } catch (InterruptedException exc) {
+                            throw new RuntimeException(exc);
+                        }
+                    },
+                    (simulation, problem) -> {
+                        //remove the scene from the list of listeners
+                        simulation.removeListener(simulationScene.get());
+
+                        //check if gui got stopped
+                        return simulationScene.get().isClosed();
+                    },
+                    result -> {
+                        //execute the scene switching on the javafx thread
+                        Platform.runLater(() -> {
+                            RaterScene raterScene = (RaterScene) SceneSwitcher.loadScene(SceneSwitcher.SceneType.RATING, getController().getStage());
+                            raterScene.init(problemGroup.problems(), result);
+                        });
+                    });
             }).start();
         });
 
