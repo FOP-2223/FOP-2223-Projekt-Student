@@ -19,6 +19,7 @@ import projekt.delivery.service.DeliveryService;
 import projekt.delivery.service.OurDeliveryService;
 import projekt.delivery.simulation.SimulationConfig;
 import projekt.gui.controller.MainMenuSceneController;
+import projekt.io.IOHelper;
 import projekt.runner.RunnerImpl;
 
 import java.util.Arrays;
@@ -43,7 +44,7 @@ public class MainMenuScene extends MenuScene<MainMenuSceneController> {
      * Initializes this {@link MainMenuScene} with the {@link ProblemArchetype} presets in the resource dir.
      */
     public void init() {
-        super.init(readProblemPresets());
+        super.init(IOHelper.readProblems());
     }
 
     private VBox createOptionsVBox() {
