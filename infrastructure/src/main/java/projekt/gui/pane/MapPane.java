@@ -112,76 +112,6 @@ public class MapPane extends Pane {
 
     // --- Edge Handling --- //
 
-    @Nullable
-    private static Float getStrokeWidth(int i, boolean inverted) {
-        float strokeWidth;
-        if (i % 10 == 0) {
-            strokeWidth = inverted ? TEN_TICKS_WIDTH : FIVE_TICKS_WIDTH;
-        } else if (i % 5 == 0) {
-            strokeWidth = inverted ? FIVE_TICKS_WIDTH : TEN_TICKS_WIDTH;
-        } else {
-            return null;
-        }
-        return strokeWidth;
-    }
-
-    private static Point2D locationToPoint2D(Location location) {
-        return new Point2D.Double(location.getX(), location.getY());
-    }
-
-    private static Point2D getDifference(Point2D p1, Point2D p2) {
-        return new Point2D.Double(p1.getX() - p2.getX(), p1.getY() - p2.getY());
-    }
-
-    private static Point2D midPoint(VehicleManager.Occupied<?> occupied) {
-        if (occupied.getComponent() instanceof Region.Node) {
-            return midPoint(((Region.Node) occupied.getComponent()).getLocation());
-        } else if (occupied.getComponent() instanceof Region.Edge) {
-            return midPoint((Region.Edge) occupied.getComponent());
-        }
-        throw new UnsupportedOperationException("unsupported type of component");
-    }
-
-    private static Point2D midPoint(Location location) {
-        return new Point2D.Double(location.getX(), location.getY());
-    }
-
-    private static Point2D midPoint(Vehicle vehicle) {
-        return midPoint(vehicle.getOccupied());
-    }
-
-    private static Point2D midPoint(Region.Node node) {
-        return midPoint(node.getLocation());
-    }
-
-    private static Point2D midPoint(Region.Edge edge) {
-        var l1 = edge.getNodeA().getLocation();
-        var l2 = edge.getNodeB().getLocation();
-        return new Point2D.Double((l1.getX() + l2.getX()) / 2d, (l1.getY() + l2.getY()) / 2d);
-    }
-
-    // --- Node Handling --- //
-
-    @SuppressWarnings("SameParameterValue")
-    private static Image loadImage(String name, Color color) {
-        try {
-            BufferedImage image = ImageIO.read(Objects.requireNonNull(MapPane.class.getClassLoader().getResource(name)));
-            for (int x = 0; x < image.getWidth(); x++)
-                for (int y = 0; y < image.getHeight(); y++)
-                    if (image.getRGB(x, y) == java.awt.Color.BLACK.getRGB())
-                        image.setRGB(x, y, new java.awt.Color(
-                            (float) color.getRed(),
-                            (float) color.getGreen(),
-                            (float) color.getBlue(),
-                            (float) color.getOpacity())
-                            .getRGB());
-            return SwingFXUtils.toFXImage(image, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     /**
      * Adds an {@link Region.Edge} to this {@link MapPane} and displays it.
      *
@@ -258,8 +188,6 @@ public class MapPane extends Pane {
         }
     }
 
-    // -- Vehicle Handling --- //
-
     /**
      * Updates the position of the given {@link Region.Edge}.
      *
@@ -286,6 +214,8 @@ public class MapPane extends Pane {
         labeledEdge.text().setX(transformedMidPoint.getX());
         labeledEdge.text().setY(transformedMidPoint.getY());
     }
+
+    // --- Node Handling --- //
 
     /**
      * Adds a {@link Region.Node} to this {@link MapPane} and displays it.
@@ -364,8 +294,6 @@ public class MapPane extends Pane {
         }
     }
 
-    // --- Other Util --- //
-
     /**
      * Updates the position of the given {@link Region.Node}.
      *
@@ -388,6 +316,8 @@ public class MapPane extends Pane {
         labeledNode.text().setY(transformedMidPoint.getY());
     }
 
+    // --- Vehicle Handling --- //
+
     /**
      * Adds a {@link Vehicle} to this {@link MapPane} and displays it.
      *
@@ -396,9 +326,6 @@ public class MapPane extends Pane {
     public void addVehicle(Vehicle vehicle) {
         vehicles.put(vehicle, drawVehicle(vehicle));
     }
-
-
-    // --- Private Methods --- //
 
     /**
      * Adds the {@link Vehicle}s to this {@link MapPane} and displays them.
@@ -486,6 +413,8 @@ public class MapPane extends Pane {
         imageView.setY(transformedMidPoint.getY() - imageView.getImage().getHeight() / 2);
     }
 
+    // --- Other Util --- //
+
     /**
      * Removes all components from this {@link MapPane}.
      */
@@ -511,6 +440,8 @@ public class MapPane extends Pane {
         redrawEdges();
         redrawVehicles();
     }
+
+    // --- Private Methods --- //
 
     private void initListeners() {
 
@@ -622,6 +553,26 @@ public class MapPane extends Pane {
         return imageView;
     }
 
+    @SuppressWarnings("SameParameterValue")
+    private static Image loadImage(String name, Color color) {
+        try {
+            BufferedImage image = ImageIO.read(Objects.requireNonNull(MapPane.class.getClassLoader().getResource(name)));
+            for (int x = 0; x < image.getWidth(); x++)
+                for (int y = 0; y < image.getHeight(); y++)
+                    if (image.getRGB(x, y) == java.awt.Color.BLACK.getRGB())
+                        image.setRGB(x, y, new java.awt.Color(
+                            (float) color.getRed(),
+                            (float) color.getGreen(),
+                            (float) color.getBlue(),
+                            (float) color.getOpacity())
+                            .getRGB());
+            return SwingFXUtils.toFXImage(image, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private void handleNodeClick(Ellipse ellipse, Region.Node node) {
         if (selectedNode != null) {
             nodes.get(selectedNode).ellipse().setStroke(EDGE_COLOR);
@@ -705,6 +656,54 @@ public class MapPane extends Pane {
             getChildren().add(line);
             grid.add(line);
         }
+    }
+
+    @Nullable
+    private static Float getStrokeWidth(int i, boolean inverted) {
+        float strokeWidth;
+        if (i % 10 == 0) {
+            strokeWidth = inverted ? TEN_TICKS_WIDTH : FIVE_TICKS_WIDTH;
+        } else if (i % 5 == 0) {
+            strokeWidth = inverted ? FIVE_TICKS_WIDTH : TEN_TICKS_WIDTH;
+        } else {
+            return null;
+        }
+        return strokeWidth;
+    }
+
+    private static Point2D locationToPoint2D(Location location) {
+        return new Point2D.Double(location.getX(), location.getY());
+    }
+
+    private static Point2D getDifference(Point2D p1, Point2D p2) {
+        return new Point2D.Double(p1.getX() - p2.getX(), p1.getY() - p2.getY());
+    }
+
+    private static Point2D midPoint(VehicleManager.Occupied<?> occupied) {
+        if (occupied.getComponent() instanceof Region.Node) {
+            return midPoint(((Region.Node) occupied.getComponent()).getLocation());
+        } else if (occupied.getComponent() instanceof Region.Edge) {
+            return midPoint((Region.Edge) occupied.getComponent());
+        }
+        throw new UnsupportedOperationException("unsupported type of component");
+    }
+
+    private static Point2D midPoint(Location location) {
+        return new Point2D.Double(location.getX(), location.getY());
+    }
+
+    private static Point2D midPoint(Vehicle vehicle) {
+        return midPoint(vehicle.getOccupied());
+    }
+
+    private static Point2D midPoint(Region.Node node) {
+        return midPoint(node.getLocation());
+    }
+
+    private static Point2D midPoint(Region.Edge edge) {
+        var l1 = edge.getNodeA().getLocation();
+        var l2 = edge.getNodeB().getLocation();
+        return new Point2D.Double((l1.getX() + l2.getX()) / 2d, (l1.getY() + l2.getY()) / 2d);
     }
 
     private void redrawGrid() {
