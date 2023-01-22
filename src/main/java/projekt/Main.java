@@ -3,7 +3,7 @@ package projekt;
 public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        startWithGUI();
+        startWithGUI();//Salut
         //startWithoutGUI(); //can bew used instead to run a simulation without a gui
     }
 
