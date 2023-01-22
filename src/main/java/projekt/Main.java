@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         startWithGUI();//Salut
         //startWithoutGUI(); //can bew used instead to run a simulation without a gui
+        //salute okhra
     }
 
     private static void startWithGUI() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
