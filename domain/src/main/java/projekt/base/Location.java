@@ -9,6 +9,7 @@ import static org.tudalgo.algoutils.student.Student.crash;
 /**
  * A tuple for the x- and y-coordinates of a point.
  */
+@SuppressWarnings("ClassCanBeRecord")
 public final class Location implements Comparable<Location> {
 
     private final static Comparator<Location> COMPARATOR =
