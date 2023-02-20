@@ -452,6 +452,12 @@ public class MapPane extends Pane {
             return;
         }
 
+        if (nodes.isEmpty()) {
+            transformation.scale(20, 20);
+            redrawGrid();
+            return;
+        }
+
         double maxX = nodes.keySet().stream().map(node -> node.getLocation().getX())
             .collect(new ComparingCollector<Integer>(Comparator.naturalOrder()));
 
@@ -516,7 +522,6 @@ public class MapPane extends Pane {
             Point2D point = new Point2D.Double(actionEvent.getX(), actionEvent.getY());
             lastPoint.set(point);
             updatePositionText(point);
-            System.out.println(transformation.getScaleX() + ", " + transformation.getScaleY() + ", " + transformation.getTranslateX() + ", " + transformation.getTranslateY());
         });
 
         widthProperty().addListener((obs, oldValue, newValue) -> {
