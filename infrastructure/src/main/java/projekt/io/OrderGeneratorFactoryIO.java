@@ -78,6 +78,8 @@ public class OrderGeneratorFactoryIO {
                     fridayFactory.lastTick,
                     fridayFactory.seed)
                 );
+            } else {
+                writer.write("\n");
             }
 
             writer.write("END ORDER GENERATOR\n");
