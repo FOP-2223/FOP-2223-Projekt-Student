@@ -26,6 +26,7 @@ jagr {
             rubricProviderName.set("projekt.Projekt_RubricProvider")
             configureDependencies {
                 implementation(libs.algoutils.tutor)
+                implementation(libs.mockito.inline)
             }
         }
     }
