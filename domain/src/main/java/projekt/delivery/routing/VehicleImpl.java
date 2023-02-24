@@ -3,7 +3,7 @@ package projekt.delivery.routing;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 import static org.tudalgo.algoutils.student.Student.crash;
 
@@ -50,12 +50,12 @@ class VehicleImpl implements Vehicle {
     }
 
     @Override
-    public void moveDirect(Region.Node node, Consumer<? super Vehicle> arrivalAction) {
+    public void moveDirect(Region.Node node, BiConsumer<? super Vehicle, Long> arrivalAction) {
         crash(); // TODO: H5.4 - remove if implemented
     }
 
     @Override
-    public void moveQueued(Region.Node node, Consumer<? super Vehicle> arrivalAction) {
+    public void moveQueued(Region.Node node, BiConsumer<? super Vehicle, Long> arrivalAction) {
         crash(); // TODO: H5.3 - remove if implemented
     }
 
@@ -105,11 +105,11 @@ class VehicleImpl implements Vehicle {
         final PathImpl path = moveQueue.peek();
         if (path.nodes().isEmpty()) {
             moveQueue.pop();
-            final @Nullable Consumer<? super Vehicle> action = path.arrivalAction();
+            final @Nullable BiConsumer<? super Vehicle, Long> action = path.arrivalAction();
             if (action == null) {
                 move(currentTick);
             } else {
-                action.accept(this);
+                action.accept(this, currentTick);
             }
         } else {
             Region.Node next = path.nodes().peek();
@@ -147,7 +147,7 @@ class VehicleImpl implements Vehicle {
             + ')';
     }
 
-    private record PathImpl(Deque<Region.Node> nodes, Consumer<? super Vehicle> arrivalAction) implements Path {
+    private record PathImpl(Deque<Region.Node> nodes, BiConsumer<? super Vehicle, Long> arrivalAction) implements Path {
 
     }
 }
