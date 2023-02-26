@@ -50,7 +50,7 @@ public class TutorTests_H9_OurDeliveryServiceTest {
             assertTrue(r.get(RatingCriteria.IN_TIME) > 0.3, context,
                 TR -> "The amount delivered in time should be greater than 0.3, but was %f.".formatted(r.get(RatingCriteria.IN_TIME)));
             assertTrue(r.get(RatingCriteria.TRAVEL_DISTANCE) > 0.1, context,
-                TR -> "The travel distance should be less than 0.1, but was %f.".formatted(r.get(RatingCriteria.TRAVEL_DISTANCE)));
+                TR -> "The travel distance should be greater than 0.1, but was %f.".formatted(r.get(RatingCriteria.TRAVEL_DISTANCE)));
         });
     }
 
@@ -77,7 +77,7 @@ public class TutorTests_H9_OurDeliveryServiceTest {
             assertTrue(r.get(RatingCriteria.IN_TIME) > 0.25, context,
                 TR -> "The amount delivered in time should be greater than 0.25, but was %f.".formatted(r.get(RatingCriteria.IN_TIME)));
             assertTrue(r.get(RatingCriteria.TRAVEL_DISTANCE) > 0.35, context,
-                TR -> "The travel distance should be less than 0.35, but was %f.".formatted(r.get(RatingCriteria.TRAVEL_DISTANCE)));
+                TR -> "The travel distance should be greater than 0.35, but was %f.".formatted(r.get(RatingCriteria.TRAVEL_DISTANCE)));
         });
     }
 
@@ -104,7 +104,7 @@ public class TutorTests_H9_OurDeliveryServiceTest {
             assertTrue(r.get(RatingCriteria.IN_TIME) > 0.2, context,
                 TR -> "The amount delivered in time should be greater than 0.2, but was %f.".formatted(r.get(RatingCriteria.IN_TIME)));
             assertTrue(r.get(RatingCriteria.TRAVEL_DISTANCE) > 0.05, context,
-                TR -> "The travel distance should be less than 0.05, but was %f.".formatted(r.get(RatingCriteria.TRAVEL_DISTANCE)));
+                TR -> "The travel distance should be greater than 0.05, but was %f.".formatted(r.get(RatingCriteria.TRAVEL_DISTANCE)));
         });
     }
 
@@ -131,7 +131,7 @@ public class TutorTests_H9_OurDeliveryServiceTest {
             assertTrue(r.get(RatingCriteria.IN_TIME) > 0.2, context,
                 TR -> "The amount delivered in time should be greater than 0.2, but was %f.".formatted(r.get(RatingCriteria.IN_TIME)));
             assertTrue(r.get(RatingCriteria.TRAVEL_DISTANCE) > 0.2, context,
-                TR -> "The travel distance should be less than 0.2, but was %f.".formatted(r.get(RatingCriteria.TRAVEL_DISTANCE)));
+                TR -> "The travel distance should be greater than 0.2, but was %f.".formatted(r.get(RatingCriteria.TRAVEL_DISTANCE)));
         });
     }
 
