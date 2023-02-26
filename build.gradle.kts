@@ -42,6 +42,7 @@ dependencies {
     testImplementation(project(":domain"))
     implementation(project(":application"))
     runtimeOnly(project(":infrastructure"))
+    compileOnly(project(":infrastructure"))
 }
 
 application {
