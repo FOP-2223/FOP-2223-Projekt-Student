@@ -64,7 +64,15 @@ public class TutorTests_H1_LocationTest {
         for (int i = 0; i < iterations; i++) {
             Location location = new Location(random.nextInt(-1024, 1024), random.nextInt(-1024, 1024));
 
-            if (!locations.contains(location)) {
+            boolean contains = false;
+            for (Location other : locations) {
+                if (location.getX() == other.getX() && location.getY() == other.getY()) {
+                    contains = true;
+                    break;
+                }
+            }
+
+            if (!contains) {
                 locations.add(location);
             }
         }
