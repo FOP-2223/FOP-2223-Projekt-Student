@@ -284,6 +284,7 @@ public class TutorTests_H9_BasicDeliveryServiceTest {
             TR -> "The method moveQueued wasn't called the correct amount of times with the location %s.".formatted(neighborhoodLocation));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testArrivalAction() throws ReflectiveOperationException {
 
