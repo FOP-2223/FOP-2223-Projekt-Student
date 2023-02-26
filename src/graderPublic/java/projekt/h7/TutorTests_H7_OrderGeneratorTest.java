@@ -129,6 +129,14 @@ public class TutorTests_H7_OrderGeneratorTest {
         assertEquals(orderCount, orders.size(), context,
             TR -> "Method did not create the correct amount of distinct orders in the interval [0, %d].".formatted(lastTick));
 
+        for (int i = lastTick + 1; i < 1000; i++) {
+            int finalI = i;
+            assertNotNull(generator.generateOrders(i), context,
+                TR -> "Method returned null for tick %d. Expected empty List".formatted(finalI));
+            assertTrue(generator.generateOrders(i).isEmpty(), context,
+                TR -> "Method returned non-empty List for tick %d. Expected empty List".formatted(finalI));
+        }
+
     }
 
     @Test
