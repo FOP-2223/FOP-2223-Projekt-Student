@@ -107,6 +107,9 @@ public class BasicDeliverySimulation implements Simulation {
 
     @Override
     public double getRatingForCriterion(RatingCriteria criterion) {
+        if (!currentRaterMap.containsKey(criterion)) {
+            throw new IllegalArgumentException("No rater for criterion " + criterion);
+        }
         return currentRaterMap.get(criterion).getScore();
     }
 
