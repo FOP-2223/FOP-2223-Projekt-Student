@@ -36,8 +36,8 @@ public class TutorTests_H1_LocationTest {
         Location location1 = new Location(1, 2);
         Location location2 = new Location(1, 2);
 
-        assertEquals(location1.compareTo(location2), 0, context, TR -> "Method did not return zero when location1.x == location2.x");
-        assertEquals(location2.compareTo(location1), 0, context, TR -> "Method did not return zero when location1.x == location2.x");
+        assertEquals(0, location1.compareTo(location2), context, TR -> "Method did not return zero when location1.x == location2.x");
+        assertEquals(0, location2.compareTo(location1), context, TR -> "Method did not return zero when location1.x == location2.x");
     }
 
     @Test
@@ -89,7 +89,7 @@ public class TutorTests_H1_LocationTest {
             .add("generated locations", locations.size())
             .build();
 
-        assertEquals(hashes.size(), locations.size(), context, TR -> "Method did not return unique hash codes for all locations");
+        assertEquals(locations.size(), hashes.size(), context, TR -> "Method did not return unique hash codes for all locations");
     }
 
     @Test
@@ -115,7 +115,7 @@ public class TutorTests_H1_LocationTest {
             .add("LocationB", Objects.toString(b))
             .build();
 
-        assertEquals(a.equals(b), expected, context, TR -> description);
+        assertEquals(expected, a.equals(b), context, TR -> description);
     }
 
     @ParameterizedTest
@@ -129,7 +129,7 @@ public class TutorTests_H1_LocationTest {
 
         Location location = new Location(x, y);
 
-        assertEquals(location.toString(), "(" + x + ", " + y + ")", context, TR -> "Method did not return the correct string");
+        assertEquals("(" + x + ", " + y + ")", location.toString(), context, TR -> "Method did not return the correct string");
     }
 
 }

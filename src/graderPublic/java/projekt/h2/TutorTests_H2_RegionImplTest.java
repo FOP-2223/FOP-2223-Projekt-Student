@@ -65,8 +65,8 @@ public class TutorTests_H2_RegionImplTest {
             .subject("RegionImpl#getNode(Location)")
             .build();
 
-        assertEquals(region.getNode(locationA),
-            createNode(region, "A", locationA, Set.of(locationB, locationC)),
+        assertEquals(createNode(region, "A", locationA, Set.of(locationB, locationC)),
+            region.getNode(locationA),
             contextContains, TR -> "RegionImpl#getNode() does not the correct node if the nodes map contains the given location.");
 
         Context contextNotContains = contextBuilder()
@@ -94,7 +94,7 @@ public class TutorTests_H2_RegionImplTest {
         } catch (InvocationTargetException e) {
             assertTrue(e.getCause() instanceof IllegalArgumentException, context,
                 TR -> "RegionImpl#putNode(Node) does not throw an IllegalArgumentException if the given node is in another region.");
-            assertEquals(e.getCause().getMessage(), "Node %s has incorrect region".formatted(node.toString()), context,
+            assertEquals("Node %s has incorrect region".formatted(node.toString()), e.getCause().getMessage(), context,
                 TR -> "RegionImpl#putNode(Node) does not throw an IllegalArgumentException with the correct message if the given node is in another region.");
         }
     }
@@ -121,7 +121,7 @@ public class TutorTests_H2_RegionImplTest {
         assertTrue(nodesMap.containsKey(new Location(4, 4)), context,
             TR -> "RegionImpl#putNode(Node) does not add the location of the given node to the nodes map if the given node is not in another region.");
 
-        assertSame(nodesMap.get(new Location(4, 4)), node, context,
+        assertSame(node, nodesMap.get(new Location(4, 4)), context,
             TR -> "RegionImpl#putNode(Node) does not add the given node to the nodes map if the given node is not in another region.");
     }
 
@@ -133,7 +133,7 @@ public class TutorTests_H2_RegionImplTest {
             .subject("RegionImpl#getEdge(Location, Location)")
             .build();
 
-        assertSame(region.getEdge(locationA, locationB), edgeAB, context,
+        assertSame(edgeAB, region.getEdge(locationA, locationB), context,
             TR -> "RegionImpl#getEdge() does not return the correct edge if the edges map contains the given locations and locationA < locationB.");
     }
 
@@ -166,7 +166,7 @@ public class TutorTests_H2_RegionImplTest {
             .subject("RegionImpl#getEdge(Location, Location)")
             .build();
 
-        assertSame(region.getEdge(locationC, locationA), edgeAC, context1,
+        assertSame(edgeAC, region.getEdge(locationC, locationA), context1,
             TR -> "RegionImpl#getEdge() does not return the correct edge if the edges map contains the given locations and locationA > locationB.");
 
         Context context2 = contextBuilder()
@@ -221,7 +221,7 @@ public class TutorTests_H2_RegionImplTest {
         } catch (InvocationTargetException e) {
             assertTrue(e.getCause() instanceof IllegalArgumentException, context,
                 TR -> "RegionImpl#putEdge(Edge) does not throw an IllegalArgumentException if nodeA of the given edge is in another region.");
-            assertEquals(e.getCause().getMessage(), "NodeA %s is not part of the region".formatted(locationA.toString()), context,
+            assertEquals("NodeA %s is not part of the region".formatted(locationA.toString()), e.getCause().getMessage(), context,
                 TR -> "RegionImpl#putEdge(Edge) does not throw an IllegalArgumentException with the correct message if nodeA of the given edge is in another region.");
         }
 
@@ -239,7 +239,7 @@ public class TutorTests_H2_RegionImplTest {
         } catch (InvocationTargetException e) {
             assertTrue(e.getCause() instanceof IllegalArgumentException, context,
                 TR -> "RegionImpl#putEdge(Edge) does not throw an IllegalArgumentException if nodeB of the given edge is in another region.");
-            assertEquals(e.getCause().getMessage(), "NodeB %s is not part of the region".formatted(locationB.toString()), context,
+            assertEquals("NodeB %s is not part of the region".formatted(locationB.toString()), e.getCause().getMessage(), context,
                 TR -> "RegionImpl#putEdge(Edge) does not throw an IllegalArgumentException with the correct message if nodeB of the given edge is in another region.");
         }
     }
@@ -293,7 +293,7 @@ public class TutorTests_H2_RegionImplTest {
         assertTrue(edges.get(locationA).containsKey(locationD), context,
             TR -> "RegionImpl#putEdge(Edge) does not add locationB as a key to the inner edges map if there are already entries for locationA.");
 
-        assertSame(edges.get(locationA).get(locationD), edge, context,
+        assertSame("NodeB %s is not part of the region".formatted(locationB.toString()), edges.get(locationA).get(locationD), context,
             TR -> "RegionImpl#putEdge(Edge) does not add the given edge to the inner edges map if there are already entries for locationA.");
     }
 
@@ -324,7 +324,7 @@ public class TutorTests_H2_RegionImplTest {
         assertTrue(edges.get(locationA).containsKey(locationD), context,
             TR -> "RegionImpl#putEdge(Edge) does not add locationB as a key to the inner edges map if there are already entries for locationA.");
 
-        assertSame(edges.get(locationA).get(locationD), edge, context,
+        assertSame(edge, edges.get(locationA).get(locationD), context,
             TR -> "RegionImpl#putEdge(Edge) does not add the given edge to the inner edges map if there are already entries for locationA.");
 
     }
@@ -342,7 +342,7 @@ public class TutorTests_H2_RegionImplTest {
 
         Collection<Region.Node> actual = region.getNodes();
 
-        assertSame(actual, unmodifiableNodes, build,
+        assertSame(unmodifiableNodes, actual, build,
             TR -> "RegionImpl#getNodes() does not return the unmodifiableNodes set.");
     }
 
@@ -359,7 +359,7 @@ public class TutorTests_H2_RegionImplTest {
 
         Collection<Region.Edge> actual = region.getEdges();
 
-        assertSame(actual, unmodifiableNodes, build,
+        assertSame(unmodifiableNodes, actual, build,
             TR -> "RegionImpl#getEdges() does not return the unmodifiableEdges set.");
     }
 
@@ -428,7 +428,7 @@ public class TutorTests_H2_RegionImplTest {
 
         int expected = Objects.hash(nodes, edges);
 
-        assertEquals(region.hashCode(), expected, context,
+        assertEquals(expected, region.hashCode(), context,
             TR -> "RegionImpl#hashCode() does not return the expected hash code.");
     }
 
