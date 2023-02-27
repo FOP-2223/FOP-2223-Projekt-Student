@@ -60,20 +60,20 @@ public class TutorTests_H2_RegionImplTest {
 
     @Test
     public void testGetNode() throws ReflectiveOperationException {
-        Context contextContains = contextBuilder()
+        Context context1 = contextBuilder()
             .add("location", locationA)
             .subject("RegionImpl#getNode(Location)")
             .build();
 
         assertEquals(createNode(region, "A", locationA, Set.of(locationB, locationC)),
             region.getNode(locationA),
-            contextContains, TR -> "RegionImpl#getNode() does not the correct node if the nodes map contains the given location.");
+            context1, TR -> "RegionImpl#getNode() does not the correct node if the nodes map contains the given location.");
 
-        Context contextNotContains = contextBuilder()
+        Context context2 = contextBuilder()
             .add("location", new Location(4, 4))
             .build();
 
-        assertEquals(region.getNode(new Location(4, 4)), null, contextNotContains,
+        assertNull(region.getNode(new Location(4, 4)), context2,
             TR -> "RegionImpl#getNode() does not return null if the nodes map does not contain the given location.");
     }
 
