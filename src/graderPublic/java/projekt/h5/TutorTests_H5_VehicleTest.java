@@ -464,12 +464,9 @@ public class TutorTests_H5_VehicleTest {
             .add("input", locationE)
             .build();
 
-        try {
-            vehicle.moveDirect(restaurantE, (v, t) -> {});
-        } catch (IllegalArgumentException e) {
-            assertEquals("Vehicle " + vehicle.getId() + " cannot move to own node " + restaurantE.toString(), e.getMessage(), context,
-                TR -> "Vehicle.moveQueued(Node, Consumer<Vehicle>) did not throw an IllegalArgumentException with the correct message when the node to move to was the currently occupied node");
-        }
+        assertThrows(IllegalArgumentException.class, () -> vehicle.moveDirect(restaurantE, (v, t) -> {
+            }), context,
+            TR -> "Vehicle.moveQueued(Node, Consumer<Vehicle>) did not throw an IllegalArgumentException when the node to move to was the currently occupied node");
     }
 
     @Test
