@@ -444,10 +444,21 @@ public class TutorTests_H2_RegionImplTest {
         edgesField.setAccessible(true);
         Map<Location, Map<Location, Region.Edge>> edges = (Map<Location, Map<Location, Region.Edge>>) edgesField.get(region);
 
-        int expected = Objects.hash(nodes, edges);
+        Field allEdgesField = region.getClass().getDeclaredField("allEdges");
+        allEdgesField.setAccessible(true);
+        List<Region.Edge> allEdges = (List<Region.Edge>) allEdgesField.get(region);
 
-        assertEquals(expected, region.hashCode(), context,
-            TR -> "RegionImpl#hashCode() does not return the expected hash code.");
+        int expected1 = Objects.hash(nodes, edges);
+        int expected2 = Objects.hash(nodes, allEdges);
+
+        int actual = region.hashCode();
+
+        if (actual == expected1 || actual == expected2) {
+            return;
+        }
+
+        fail(context, TR -> "RegionImpl#hashCode() does not return the expected hash code. Expected %d or %d but was %d"
+            .formatted(expected1, expected2, actual));
     }
 
 }
