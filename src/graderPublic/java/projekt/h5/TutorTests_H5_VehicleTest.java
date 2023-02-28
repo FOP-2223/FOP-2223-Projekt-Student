@@ -132,11 +132,11 @@ public class TutorTests_H5_VehicleTest {
             callLoadOrder(vehicle, order2);
         } catch (InvocationTargetException e) {
             assertTrue(e.getCause() instanceof VehicleOverloadedException, context,
-                TR -> "Vehicle.loadOrder(ConfirmedOrder) did not throw an IllegalArgumentException when the order could not be loaded");
+                TR -> "Vehicle.loadOrder(ConfirmedOrder) did not throw an VehicleOverloadedException when the order could not be loaded");
             assertEquals("Vehicle with id %d is overloaded! Maximum capacity: %f Necessary capacity: %f"
                     .formatted(vehicle.getId(), vehicle.getCapacity(), order1.getWeight() + order2.getWeight() + order3.getWeight()),
                 e.getCause().getMessage(), context,
-                TR -> "Vehicle.loadOrder(ConfirmedOrder) did not throw an IllegalArgumentException with the correct message when the order could not be loaded");
+                TR -> "Vehicle.loadOrder(ConfirmedOrder) did not throw an VehicleOverloadedException with the correct message when the order could not be loaded");
         }
 
     }
@@ -255,12 +255,9 @@ public class TutorTests_H5_VehicleTest {
             .add("input", locationE)
             .build();
 
-        try {
-            vehicle.moveQueued(restaurantE, (v, t) -> {});
-        } catch (IllegalArgumentException e) {
-            assertEquals("Vehicle " + vehicle.getId() + " cannot move to own node " + restaurantE.toString(), e.getMessage(), context,
-                TR -> "Vehicle.moveQueued(Node, Consumer<Vehicle>) did not throw an IllegalArgumentException with the correct message when the node to move to was the currently occupied node");
-        }
+        assertThrows(IllegalArgumentException.class, () -> vehicle.moveQueued(restaurantE, (v, t) -> {
+            }), context,
+            TR -> "Vehicle.moveQueued(Node, Consumer<Vehicle>) did not throw an IllegalArgumentException when the node to move to was the currently occupied node");
     }
 
     @Test
