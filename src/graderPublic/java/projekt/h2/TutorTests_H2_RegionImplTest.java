@@ -196,6 +196,10 @@ public class TutorTests_H2_RegionImplTest {
 
         Region region2 = createRegion();
 
+        Region.Node nodeA2 = createNode(region2, "A2", locationA, Set.of());
+        Region.Node nodeB2 = createNode(region2, "B2", locationB, Set.of());
+        addNodesToRegion(region2, nodeA2, nodeB2);
+
         Region.Edge edge = createEdge(region2, "EF", locationA, locationB, 1);
 
         try {
