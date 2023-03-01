@@ -208,7 +208,7 @@ public class TutorTests_H2_RegionImplTest {
         } catch (InvocationTargetException e) {
             assertTrue(e.getCause() instanceof IllegalArgumentException, context,
                 TR -> "RegionImpl#putEdge(Edge) does not throw an IllegalArgumentException if the given edge is in another region.");
-            assertEquals(e.getCause().getMessage(), "Edge %s has incorrect region".formatted(edge.toString()), context,
+            assertEquals("Edge %s has incorrect region".formatted(edge.toString()), e.getCause().getMessage(), context,
                 TR -> "RegionImpl#putEdge(Edge) does not throw an IllegalArgumentException with the correct message if the given edge is in another region.");
         }
 
