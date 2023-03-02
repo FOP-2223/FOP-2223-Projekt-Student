@@ -3,6 +3,7 @@ package projekt.delivery.routing;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A {@link PathCalculator} that is based on another {@link PathCalculator} and caches its result for later use.
@@ -47,7 +48,7 @@ public class CachedPathCalculator implements PathCalculator {
     public Map<Region.Node, Deque<Region.Node>> getAllPathsTo(Region.Node end) {
         @Nullable Map<Region.Node, Deque<Region.Node>> path = cache.get(end);
         if (path != null) {
-            return path;
+            return copyPath(path);
         }
 
         path = delegate.getAllPathsTo(end);
@@ -64,7 +65,13 @@ public class CachedPathCalculator implements PathCalculator {
         accessOrder.add(end);
         cache.put(end, path);
 
-        return path;
+        return copyPath(path);
+    }
+
+    private Map<Region.Node, Deque<Region.Node>> copyPath(Map<Region.Node, Deque<Region.Node>> path) {
+        return path.entrySet().stream()
+            .map(entry -> Map.entry(entry.getKey(), new LinkedList<>(entry.getValue())))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
 }
