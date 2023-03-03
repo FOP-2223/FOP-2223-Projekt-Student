@@ -26,11 +26,11 @@ public class FridayOrderGenerator implements OrderGenerator {
      * @param vehicleManager The {@link VehicleManager} this {@link OrderGenerator} will create orders for.
      * @param deliveryInterval The amount of ticks between the start and end tick of the deliveryInterval of the created orders.
      * @param maxWeight The maximum weight of a created order.
-     * @param variance The variance of the normal distribution.
+     * @param standardDeviation The standardDeviation of the normal distribution.
      * @param lastTick The last tick this {@link OrderGenerator} can return a non-empty list.
      * @param seed The seed for the used {@link Random} instance. If negative a random seed will be used.
      */
-    private FridayOrderGenerator(int orderCount, VehicleManager vehicleManager, int deliveryInterval, double maxWeight, double variance, long lastTick, int seed) {
+    private FridayOrderGenerator(int orderCount, VehicleManager vehicleManager, int deliveryInterval, double maxWeight, double standardDeviation, long lastTick, int seed) {
         random = seed < 0 ? new Random() : new Random(seed);
         crash(); // TODO: H7.1 - remove if implemented
     }
