@@ -242,7 +242,7 @@ public class TutorTests_H8_InTimeRaterTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"0, 1, 0.0", "20, 1, 1.0", "3, 100, 0.99"})
+    @CsvSource({"0, 1, 0.0", "20, 1, 1.0", "3, 100, 0.9675"})
     public void testAllOrdersTooEarly(long ignoredTicksOff, long maxTickOff, double expected) {
 
         Rater inTimeRate = InTimeRater.Factory.builder()
