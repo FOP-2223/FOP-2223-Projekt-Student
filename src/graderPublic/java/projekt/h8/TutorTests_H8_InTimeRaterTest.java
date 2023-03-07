@@ -330,7 +330,7 @@ public class TutorTests_H8_InTimeRaterTest {
             OrderReceivedEvent.of(4, order5),
             DeliverOrderEvent.of(4, vehicle, neighborhood, order1),
             DeliverOrderEvent.of(4, vehicle, neighborhood, order2)
-        ), 7);
+        ), 4);
 
         order4.setActualDeliveryTick(27);
         order5.setActualDeliveryTick(27);
