@@ -242,7 +242,7 @@ public class TutorTests_H8_InTimeRaterTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"0, 1, 0.0", "20, 1, 1.0", "3, 100, 0.9675"})
+    @CsvSource({"0, 1, 0.0", "20, 1, 1.0", "3, 100, 0.99"})
     public void testAllOrdersTooEarly(long ignoredTicksOff, long maxTickOff, double expected) {
 
         Rater inTimeRate = InTimeRater.Factory.builder()
@@ -275,7 +275,7 @@ public class TutorTests_H8_InTimeRaterTest {
             OrderReceivedEvent.of(1, order4),
             DeliverOrderEvent.of(1, vehicle, neighborhood, order1),
             DeliverOrderEvent.of(1, vehicle, neighborhood, order2)
-        ), 11);
+        ), 1);
 
         order3.setActualDeliveryTick(10);
         order4.setActualDeliveryTick(10);
