@@ -589,7 +589,7 @@ public class Projekt_RubricProvider implements RubricProvider {
 
     public static final Criterion H11_4_1 = createUntestedCriterion("Es können Probleme aus der Übersicht entfernt werden, worauf diese nicht simuliert werden", 1);
 
-    public static final Criterion H11_4_2 = createUntestedCriterion("Es existiert ein Knopf zum Hinzufügen neuer Probleme, welche eine neue Szene öffnet", 1);
+    public static final Criterion H11_4_2 = createUntestedCriterion("Es existiert ein Knopf zum Hinzufügen neuer Probleme, welcher eine neue Szene öffnet", 1);
 
     public static final Criterion H11_4_3 = createUntestedCriterion("Es gibt eine Auswahl, ob entweder ein existierend hinzugefügt werden soll oder ein neues erzeugt werden soll", 1);
 
@@ -631,9 +631,9 @@ public class Projekt_RubricProvider implements RubricProvider {
 
     public static final Criterion H11_4_22 = createUntestedCriterion("Wenn ein neues Problem hinzugefügt wird, kann man ausgewählte Fahrzeuge wieder entfernen", 1);
 
-    public static final Criterion H11_4_23 = createUntestedCriterion("Wenn ein neues Problem hinzugefügt wird, werden alle vorhanden Probleme in einer Übersicht angezeigt", 1);
+    public static final Criterion H11_4_23 = createUntestedCriterion("Nachdem ein neues Problem hinzugefügt wurde, wird es mithilfe der Methode IOHelper.writeProblem gespeichert", 1);
 
-    public static final Criterion H11_4_24 = createUntestedCriterion("Wenn ein neues Problem hinzugefügt wird, werden alle gewählten Eigenschaften in einer Übersicht angezeigt", 1);
+    public static final Criterion H11_4_24 = createUntestedCriterion("Es ist möglich das Erstellen eines neuen Problemes vorzeitigt über den Return Knopf abzubrechen, wodurch sich das Hauptmenü mit den davor ausgewählten Problemen öffnet", 1);
 
     public static final Criterion H11_4_25 = createUntestedCriterion("Die Option, ein neues Problem hinzuzufügen, kann nur gewählt werden, wenn alle Eigenschaften korrekt ausgewählt werden", 1);
 
