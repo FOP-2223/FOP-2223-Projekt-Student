@@ -328,6 +328,12 @@ public class TutorTests_H2_RegionImplTest {
         assertTrue(edges.get(locationA).containsKey(locationD), context,
             TR -> "RegionImpl#putEdge(Edge) does not add locationB as a key to the inner edges map if there are already entries for locationA.");
 
+        assertTrue(edges.get(locationA).containsKey(locationB), context,
+            TR -> "RegionImpl#putEdge(Edge) removes locationB as a key to the inner edges map if there are already entries for locationA.");
+
+        assertTrue(edges.get(locationA).containsKey(locationC), context,
+            TR -> "RegionImpl#putEdge(Edge) removes locationC as a key to the inner edges map if there are already entries for locationA.");
+
         assertSame(edge, edges.get(locationA).get(locationD), context,
             TR -> "RegionImpl#putEdge(Edge) does not add the given edge to the inner edges map if there are already entries for locationA.");
 
